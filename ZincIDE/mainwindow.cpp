@@ -818,10 +818,10 @@ void MainWindow::addFileToProject(bool dznOnly)
 {
     QStringList fileNames;
     if (dznOnly) {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Select a data file to open"), getLastPath(), "MiniZinc data files (*.dzn)");
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Select a data file to open"), getLastPath(), "Zinc data files (*.dzn)");
         fileNames.append(fileName);
     } else {
-        fileNames = QFileDialog::getOpenFileNames(this, tr("Select one or more files to open"), getLastPath(), "MiniZinc Files (*.mzn *.dzn)");
+        fileNames = QFileDialog::getOpenFileNames(this, tr("Select one or more files to open"), getLastPath(), "Zinc Files (*.zinc *.dzn)");
     }
 
     for (QStringList::iterator it = fileNames.begin(); it != fileNames.end(); ++it) {
@@ -1001,7 +1001,7 @@ void MainWindow::openFile(const QString &path, bool openAsModified)
     QString fileName = path;
 
     if (fileName.isNull()) {
-        fileName = QFileDialog::getOpenFileName(this, tr("Open File"), getLastPath(), "MiniZinc Files (*.mzn *.dzn *.fzn *.mzp)");
+        fileName = QFileDialog::getOpenFileName(this, tr("Open File"), getLastPath(), "Zinc Files (*.zinc *.dzn *.mzp)");
         if (!fileName.isNull()) {
             setLastPath(QFileInfo(fileName).absolutePath()+fileDialogSuffix);
         }
@@ -1279,6 +1279,40 @@ QStringList MainWindow::parseConf(bool compileOnly, bool useDataFile)
     return ret;
 }
 
+QStringList MainWindow::parseCompileConf()
+{
+    QStringList ret;
+    if (project.haveZincArgs() &&
+        !project.zincArgs().isEmpty())
+    {
+        ret << project.zincArgs();
+    }
+    return ret;
+}
+
+QStringList MainWindow::parseRunConf()
+{
+    QStringList ret;
+    if (project.currentDataFile()!="None") {
+        ret << project.currentDataFile();
+    }
+    if (project.n_solutions() != 1) {
+        ret << "-s" << QString::number(project.n_solutions());
+    }
+    if (project.printStats()) {
+        ret << "-S";
+    }
+    if (project.solverVerbose()) {
+        ret << "-v";
+    }
+    if (project.haveSolverFlags()) {
+        QStringList solverArgs =
+                project.solverFlags().split(" ", QString::SkipEmptyParts);
+        ret << solverArgs;
+    }
+    return ret;
+}
+
 void MainWindow::setupDznMenu()
 {
     QString curText = ui->conf_data_file->currentText();
@@ -1373,7 +1407,7 @@ void MainWindow::startCompileZinc(QString filepath)
     connect(process, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(procError(QProcess::ProcessError)));
 
-    QStringList args = parseConf(true, true);
+    QStringList args = parseCompileConf();
     args << filepath;
     compileErrors = "";
     addOutput("<div style='color:blue;'>Compiling "+filepath+"</div><br>");
@@ -1430,7 +1464,7 @@ void MainWindow::startRunZinc() {
     connect(process, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(procError(QProcess::ProcessError)));
 
-    QStringList args;
+    QStringList args = parseRunConf();
     compileErrors = "";
     addOutput("<div style='color:blue;'>Running "+currentZincTarget+"</div><br>");
     elapsedTime.start();

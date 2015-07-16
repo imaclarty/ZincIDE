@@ -339,6 +339,8 @@ private:
 
     void createEditor(const QString& path, bool openAsModified, bool isNewFile, bool readOnly=false);
     QStringList parseConf(bool compileOnly, bool useDataFile);
+    QStringList parseRunConf();
+    QStringList parseCompileConf();
     void saveFile(CodeEditor* ce, const QString& filepath);
     void saveProject(const QString& filepath);
     void loadProject(const QString& filepath);

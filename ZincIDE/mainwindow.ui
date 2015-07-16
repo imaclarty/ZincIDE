@@ -397,7 +397,7 @@
    </widget>
    <widget class="QMenu" name="menuMiniZinc">
     <property name="title">
-     <string>MiniZinc</string>
+     <string>Model</string>
     </property>
     <addaction name="actionRun"/>
     <addaction name="actionStop"/>
@@ -797,7 +797,7 @@
   </action>
   <action name="actionAbout_MiniZinc_IDE">
    <property name="text">
-    <string>About MiniZinc IDE</string>
+    <string>About Zinc IDE</string>
    </property>
   </action>
   <action name="actionDefault_font_size">

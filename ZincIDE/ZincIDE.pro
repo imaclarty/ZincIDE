@@ -8,7 +8,7 @@ QT       += core gui webkitwidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = MiniZincIDE
+TARGET = ZincIDE
 TEMPLATE = app
 
 VERSION = 0.9.8

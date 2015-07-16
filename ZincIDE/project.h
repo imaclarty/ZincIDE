@@ -97,7 +97,8 @@ protected:
     QString projectRoot;
     QMap<QString, QModelIndex> _files;
     QStandardItem* projectFile;
-    QStandardItem* mzn;
+    //QStandardItem* mzn;
+    QStandardItem* zinc;
     QStandardItem* dzn;
     QStandardItem* other;
     QModelIndex editable;

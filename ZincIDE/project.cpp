@@ -24,11 +24,18 @@ Project::Project(Ui::MainWindow *ui0) : ui(ui0), _courseraProject(NULL)
 {
     projectFile = new QStandardItem("Untitled Project");
     invisibleRootItem()->appendRow(projectFile);
+    /*
     mzn = new QStandardItem("Models");
     QFont font = mzn->font();
     font.setBold(true);
     mzn->setFont(font);
     invisibleRootItem()->appendRow(mzn);
+    */
+    zinc = new QStandardItem("Models");
+    QFont font = zinc->font();
+    font.setBold(true);
+    zinc->setFont(font);
+    invisibleRootItem()->appendRow(zinc);
     dzn = new QStandardItem("Data (right-click to run)");
     dzn->setFont(font);
     invisibleRootItem()->appendRow(dzn);
@@ -50,8 +57,10 @@ void Project::setRoot(QTreeView* treeView, QSortFilterProxyModel* sort, const QS
     projectFile->setText(QFileInfo(fileName).fileName());
     projectFile->setIcon(QIcon(":/images/mznicon.png"));
     QStringList allFiles = files();
-    if (mzn->rowCount() > 0)
-        mzn->removeRows(0,mzn->rowCount());
+    //if (mzn->rowCount() > 0)
+    //    mzn->removeRows(0,mzn->rowCount());
+    if (zinc->rowCount() > 0)
+        zinc->removeRows(0,zinc->rowCount());
     if (dzn->rowCount() > 0)
         dzn->removeRows(0,dzn->rowCount());
     if (other->rowCount() > 0)
@@ -71,8 +80,11 @@ QVariant Project::data(const QModelIndex &index, int role) const
             if (item==projectFile) {
                 return "00 - project";
             }
-            if (item==mzn) {
-                return "01 - mzn";
+            //if (item==mzn) {
+            //    return "01 - mzn";
+            //}
+            if (item==zinc) {
+                return "01 - zinc";
             }
             if (item==dzn) {
                 return "02 - dzn";
@@ -108,8 +120,10 @@ void Project::addFile(QTreeView* treeView, QSortFilterProxyModel* sort, const QS
     QStandardItem* curItem;
     bool isMiniZinc = true;
     bool isCoursera = false;
-    if (fi.suffix()=="mzn") {
-        curItem = mzn;
+    //if (fi.suffix()=="mzn") {
+    //    curItem = mzn;
+    if (fi.suffix()=="zinc") {
+        curItem = zinc;
     } else if (fi.suffix()=="dzn") {
         curItem = dzn;
     } else if (fi.suffix()=="fzn") {
@@ -122,14 +136,14 @@ void Project::addFile(QTreeView* treeView, QSortFilterProxyModel* sort, const QS
 
     if (isCoursera) {
         if (_courseraProject) {
-            QMessageBox::warning(treeView,"MiniZinc IDE",
+            QMessageBox::warning(treeView,"Zinc IDE",
                                 "Cannot add second Coursera options file",
                                 QMessageBox::Ok);
             return;
         }
         QFile metadata(absFileName);
         if (!metadata.open(QIODevice::ReadOnly)) {
-            QMessageBox::warning(treeView,"MiniZinc IDE",
+            QMessageBox::warning(treeView,"Zinc IDE",
                                  "Cannot open Coursera options file",
                                  QMessageBox::Ok);
             return;
@@ -257,7 +271,7 @@ Qt::ItemFlags Project::flags(const QModelIndex& index) const
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
     } else {
         QStandardItem* item = itemFromIndex(index);
-        if (!item->hasChildren() && (item==mzn || item==dzn || item==other) )
+        if (!item->hasChildren() && (item==zinc || item==dzn || item==other) )
             return Qt::ItemIsSelectable;
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
     }
