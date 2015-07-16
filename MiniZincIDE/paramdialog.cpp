@@ -59,7 +59,7 @@ void ParamDialog::getParams(QStringList params, const QStringList& dataFiles, QS
         le[0]->setFocus();
     if (QDialog::exec()==QDialog::Accepted) {
         if (cb && cb->currentIndex() != 0) {
-            dataFile = cb->currentData().toString();
+            dataFile = cb->currentText();
             previousDataFile = dataFile;
         } else {
             for (int i=0; i<le.size(); i++)

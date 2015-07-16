@@ -18,7 +18,7 @@ CourseraSubmission::CourseraSubmission(MainWindow* mw0, CourseraProject& cp) :
 {
     ui->setupUi(this);
 
-    ui->selectedSolver->setText(mw->getProject().currentSolver());
+    //ui->selectedSolver->setText(mw->getProject().currentSolver());
 
     QVBoxLayout* modelLayout = new QVBoxLayout;
     ui->modelBox->setLayout(modelLayout);

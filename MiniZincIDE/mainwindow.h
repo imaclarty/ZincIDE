@@ -145,6 +145,18 @@ private slots:
 
     void on_actionRun_triggered();
 
+    QString zincTarget(QString filepath);
+
+    void startCompileZinc(QString filepath);
+    void compileZincOutput();
+    void compileZincFinished(int exitcode);
+
+    void startRunZinc();
+    void runZincOutput();
+    void runZincFinished(int exitcode);
+
+    bool targetIsUpToDate();
+
     void checkArgs(QString filepath);
     void checkArgsOutput();
     void checkArgsFinished(int exitcode);
@@ -165,10 +177,6 @@ private slots:
 
     void on_actionCompile_triggered();
 
-    void openCompiledFzn(int);
-
-    void runCompiledFzn(int);
-
     void on_actionSave_as_triggered();
 
     void on_actionClear_output_triggered();
@@ -182,8 +190,6 @@ private slots:
     void errorClicked(const QUrl&);
 
     void on_actionDefault_font_size_triggered();
-
-    void on_actionManage_solvers_triggered(bool addNew=false);
 
     void on_actionFind_triggered();
 
@@ -253,8 +259,6 @@ private slots:
 
     void fileRenamed(const QString&, const QString&);
 
-    void on_conf_timeLimit_valueChanged(int arg1);
-
     void on_conf_solver_activated(const QString &arg1);
 
     void onClipboardChanged();
@@ -301,10 +305,9 @@ private:
     QFont editorFont;
     bool darkMode;
     QVector<Solver> solvers;
-    QString defaultSolver;
-    QString mznDistribPath;
-    QString getMznDistribPath(void) const;
-    QString currentFznTarget;
+    QString zincDistribPath;
+    QString getZincDistribPath(void) const;
+    QString currentZincTarget;
     bool runSolns2Out;
     QTemporaryDir* tmpDir;
     QVector<QTemporaryDir*> cleanupTmpDirs;
@@ -315,7 +318,7 @@ private:
     QString compileErrors;
     ParamDialog* paramDialog;
     bool compileOnly;
-    QString mzn2fzn_executable;
+    QString zinc_executable;
     Project project;
     QSortFilterProxyModel* projectSort;
     QMenu* projectContextMenu;

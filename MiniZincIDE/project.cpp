@@ -314,20 +314,13 @@ void Project::setModified(bool flag, bool files)
             }
             if (!_isModified) {
                 currentDataFileIndex(currentDataFileIndex(),true);
-                haveExtraArgs(haveExtraArgs(),true);
-                extraArgs(extraArgs(),true);
-                mzn2fznVerbose(mzn2fznVerbose(),true);
-                mzn2fznOptimize(mzn2fznOptimize(),true);
-                currentSolver(currentSolver(),true);
+                haveZincArgs(haveZincArgs(),true);
+                zincArgs(zincArgs(),true);
                 n_solutions(n_solutions(),true);
                 printAll(printAll(),true);
                 printStats(printStats(),true);
                 haveSolverFlags(haveSolverFlags(),true);
                 solverFlags(solverFlags(),true);
-                n_threads(n_threads(),true);
-                haveSeed(haveSeed(),true);
-                seed(seed(),true);
-                timeLimit(timeLimit(),true);
                 solverVerbose(solverVerbose(),true);
             }
         }
@@ -353,33 +346,13 @@ bool Project::setData(const QModelIndex& index, const QVariant& value, int role)
     }
 }
 
-bool Project::haveExtraArgs(void) const
+bool Project::haveZincArgs(void) const
 {
-    return ui->conf_have_cmd_params->isChecked();
+    return ui->conf_have_zinc_params->isChecked();
 }
-QString Project::extraArgs(void) const
+QString Project::zincArgs(void) const
 {
-    return ui->conf_cmd_params->text();
-}
-bool Project::haveExtraMzn2FznArgs(void) const
-{
-    return ui->conf_have_mzn2fzn_params->isChecked();
-}
-QString Project::extraMzn2FznArgs(void) const
-{
-    return ui->conf_mzn2fzn_params->text();
-}
-bool Project::mzn2fznVerbose(void) const
-{
-    return ui->conf_verbose->isChecked();
-}
-bool Project::mzn2fznOptimize(void) const
-{
-    return ui->conf_optimize->isChecked();
-}
-QString Project::currentSolver(void) const
-{
-    return ui->conf_solver->currentText();
+    return ui->conf_zinc_params->text();
 }
 int Project::n_solutions(void) const
 {
@@ -401,22 +374,6 @@ QString Project::solverFlags(void) const
 {
     return ui->conf_solverFlags->text();
 }
-int Project::n_threads(void) const
-{
-    return ui->conf_nthreads->value();
-}
-bool Project::haveSeed(void) const
-{
-    return ui->conf_have_seed->isChecked();
-}
-QString Project::seed(void) const
-{
-    return ui->conf_seed->text();
-}
-int Project::timeLimit(void) const
-{
-    return ui->conf_timeLimit->value();
-}
 bool Project::solverVerbose(void) const
 {
     return ui->conf_solver_verbose->isChecked();
@@ -437,71 +394,21 @@ void Project::currentDataFileIndex(int i, bool init)
     }
 }
 
-void Project::haveExtraArgs(bool b, bool init)
+void Project::haveZincArgs(bool b, bool init)
 {
     if (init) {
-        _haveExtraArgs = b;
-        ui->conf_have_cmd_params->setChecked(b);
+        _haveZincArgs = b;
+        ui->conf_have_zinc_params->setChecked(b);
     } else {
         checkModified();
     }
 }
 
-void Project::extraArgs(const QString& a, bool init)
+void Project::zincArgs(const QString& a, bool init)
 {
     if (init) {
-        _extraArgs = a;
-        ui->conf_cmd_params->setText(a);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::haveExtraMzn2FznArgs(bool b, bool init)
-{
-    if (init) {
-        _haveExtraMzn2FznArgs = b;
-        ui->conf_have_mzn2fzn_params->setChecked(b);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::extraMzn2FznArgs(const QString& a, bool init)
-{
-    if (init) {
-        _extraMzn2FznArgs = a;
-        ui->conf_mzn2fzn_params->setText(a);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::mzn2fznVerbose(bool b, bool init)
-{
-    if (init) {
-        _mzn2fzn_verbose= b;
-        ui->conf_verbose->setChecked(b);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::mzn2fznOptimize(bool b, bool init)
-{
-    if (init) {
-        _mzn2fzn_optimize = b;
-        ui->conf_optimize->setChecked(b);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::currentSolver(const QString& s, bool init)
-{
-    if (init) {
-        _currentSolver = s;
-        ui->conf_solver->setCurrentText(s);
+        _zincArgs = a;
+        ui->conf_zinc_params->setText(a);
     } else {
         checkModified();
     }
@@ -557,46 +464,6 @@ void Project::solverFlags(const QString& s, bool init)
     }
 }
 
-void Project::n_threads(int n, bool init)
-{
-    if (init) {
-        _n_threads = n;
-        ui->conf_nthreads->setValue(n);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::haveSeed(bool b, bool init)
-{
-    if (init) {
-        _haveSeed = b;
-        ui->conf_have_seed->setChecked(b);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::seed(const QString& s, bool init)
-{
-    if (init) {
-        _seed = s;
-        ui->conf_seed->setText(s);
-    } else {
-        checkModified();
-    }
-}
-
-void Project::timeLimit(int n, bool init)
-{
-    if (init) {
-        _timeLimit = n;
-        ui->conf_timeLimit->setValue(n);
-    } else {
-        checkModified();
-    }
-}
-
 void Project::solverVerbose(bool b, bool init)
 {
     if (init) {
@@ -625,23 +492,11 @@ void Project::checkModified()
         setModified(true);
         return;
     }
-    if (haveExtraArgs() != _haveExtraArgs) {
+    if (haveZincArgs() != _haveZincArgs) {
         setModified(true);
         return;
     }
-    if (extraArgs() != _extraArgs) {
-        setModified(true);
-        return;
-    }
-    if (mzn2fznVerbose() != _mzn2fzn_verbose) {
-        setModified(true);
-        return;
-    }
-    if (mzn2fznOptimize() != _mzn2fzn_optimize) {
-        setModified(true);
-        return;
-    }
-    if (currentSolver() != _currentSolver) {
+    if (zincArgs() != _zincArgs) {
         setModified(true);
         return;
     }
@@ -662,22 +517,6 @@ void Project::checkModified()
         return;
     }
     if (solverFlags() != _solverFlags) {
-        setModified(true);
-        return;
-    }
-    if (n_threads() != _n_threads) {
-        setModified(true);
-        return;
-    }
-    if (haveSeed() != _haveSeed) {
-        setModified(true);
-        return;
-    }
-    if (seed() != _seed) {
-        setModified(true);
-        return;
-    }
-    if (timeLimit() != _timeLimit) {
         setModified(true);
         return;
     }
