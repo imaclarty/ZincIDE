@@ -669,8 +669,11 @@ void MainWindow::init(const QString& projectFile)
     Solver g12mip("G12 MIP","flatzinc","-Glinear","-b mip",true,false);
     bool hadg12mip = false;
 
+#ifdef Q_OS_WIN
+    zinc_executable = "zinc.bat";
+#else
     zinc_executable = "zinc";
-
+#endif
 #ifdef MINIZINC_IDE_BUNDLED
     Solver gecode("Gecode (bundled)","fzn-gecode","-Ggecode","",true,false);
     bool hadgecode = false;
@@ -1287,6 +1290,10 @@ QStringList MainWindow::parseCompileConf()
     {
         ret << project.zincArgs();
     }
+#ifdef Q_OS_WIN
+    ret << "--mmc-flags";
+    ret << "--linkage static";
+#endif
     return ret;
 }
 
