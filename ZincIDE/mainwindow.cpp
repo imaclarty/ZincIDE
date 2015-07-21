@@ -1914,7 +1914,7 @@ void MainWindow::saveFile(CodeEditor* ce, const QString& f)
         }
         QString dialogPath = ce->filepath.isEmpty() ? getLastPath()+"/"+ce->filename: ce->filepath;
 
-        filepath = QFileDialog::getSaveFileName(this,"Save file",dialogPath,"MiniZinc files (*.mzn *.dzn *.fzn)");
+        filepath = QFileDialog::getSaveFileName(this,"Save file",dialogPath,"Zinc files (*.zinc *.dzn)");
         if (!filepath.isNull()) {
             setLastPath(QFileInfo(filepath).absolutePath()+fileDialogSuffix);
         }
