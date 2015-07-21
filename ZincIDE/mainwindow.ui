@@ -762,7 +762,7 @@
   <action name="actionCompile">
    <property name="icon">
     <iconset resource="minizincide.qrc">
-     <normaloff>:/icons/images/media-playback-start.png</normaloff>:/icons/images/media-playback-start.png</iconset>
+     <normaloff>:/icons/images/compile.png</normaloff>:/icons/images/compile.png</iconset>
    </property>
    <property name="text">
     <string>Compile</string>
