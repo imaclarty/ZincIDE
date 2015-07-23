@@ -771,6 +771,7 @@ void MainWindow::init(const QString& projectFile)
     connect(&project, SIGNAL(fileRenamed(QString,QString)), this, SLOT(fileRenamed(QString,QString)));
 
     connect(ui->conf_data_file, SIGNAL(currentIndexChanged(int)), &project, SLOT(currentDataFileIndex(int)));
+    connect(ui->conf_data_file2, SIGNAL(currentIndexChanged(int)), &project, SLOT(currentDataFile2Index(int)));
     connect(ui->conf_have_zinc_params, SIGNAL(toggled(bool)), &project, SLOT(haveZincArgs(bool)));
     connect(ui->conf_zinc_params, SIGNAL(textEdited(QString)), &project, SLOT(zincArgs(QString)));
     connect(ui->conf_solver_verbose, SIGNAL(toggled(bool)), &project, SLOT(solverVerbose(bool)));
@@ -1303,6 +1304,9 @@ QStringList MainWindow::parseRunConf()
     if (project.currentDataFile()!="None") {
         ret << project.currentDataFile();
     }
+    if (project.currentDataFile2()!="None") {
+        ret << project.currentDataFile2();
+    }
     if (project.n_solutions() != 1) {
         ret << "-s" << QString::number(project.n_solutions());
     }
@@ -1331,6 +1335,16 @@ void MainWindow::setupDznMenu()
     }
     ui->conf_data_file->addItem("Add data file to project...");
     ui->conf_data_file->setCurrentText(curText);
+
+    curText = ui->conf_data_file2->currentText();
+    ui->conf_data_file2->clear();
+    ui->conf_data_file2->addItem("None");
+    dataFiles = project.dataFiles();
+    for (int i=0; i<dataFiles.size(); i++) {
+        ui->conf_data_file2->addItem(dataFiles[i]);
+    }
+    ui->conf_data_file2->addItem("Add data file to project...");
+    ui->conf_data_file2->setCurrentText(curText);
 }
 
 void MainWindow::addOutput(const QString& s, bool html)
@@ -2707,6 +2721,16 @@ void MainWindow::on_conf_data_file_activated(const QString &arg1)
         addFileToProject(true);
         if (nFiles < ui->conf_data_file->count()) {
             ui->conf_data_file->setCurrentIndex(ui->conf_data_file->count()-2);
+        }
+    }
+}
+void MainWindow::on_conf_data_file2_activated(const QString &arg1)
+{
+    if (arg1=="Add data file to project...") {
+        int nFiles = ui->conf_data_file2->count();
+        addFileToProject(true);
+        if (nFiles < ui->conf_data_file2->count()) {
+            ui->conf_data_file2->setCurrentIndex(ui->conf_data_file2->count()-2);
         }
     }
 }

@@ -67,6 +67,8 @@ public:
 
     int currentDataFileIndex(void) const;
     QString currentDataFile(void) const;
+    int currentDataFile2Index(void) const;
+    QString currentDataFile2(void) const;
     bool haveZincArgs(void) const;
     QString zincArgs(void) const;
     int n_solutions(void) const;
@@ -79,6 +81,7 @@ public:
     bool isUndefined(void) const;
 public slots:
     void currentDataFileIndex(int i, bool init=false);
+    void currentDataFile2Index(int i, bool init=false);
     void haveZincArgs(bool b, bool init=false);
     void zincArgs(const QString& a, bool init=false);
     void n_solutions(int n, bool init=false);
@@ -104,6 +107,7 @@ protected:
     QModelIndex editable;
 
     int _currentDatafileIndex;
+    int _currentDatafile2Index;
     bool _haveZincArgs;
     QString _zincArgs;
     int _n_solutions;

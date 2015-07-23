@@ -264,6 +264,7 @@ private slots:
     void onClipboardChanged();
 
     void on_conf_data_file_activated(const QString &arg1);
+    void on_conf_data_file2_activated(const QString &arg1);
 
     void showWindowMenu(void);
     void windowMenuSelected(QAction*);

@@ -328,6 +328,7 @@ void Project::setModified(bool flag, bool files)
             }
             if (!_isModified) {
                 currentDataFileIndex(currentDataFileIndex(),true);
+                currentDataFile2Index(currentDataFile2Index(),true);
                 haveZincArgs(haveZincArgs(),true);
                 zincArgs(zincArgs(),true);
                 n_solutions(n_solutions(),true);
@@ -403,6 +404,16 @@ void Project::currentDataFileIndex(int i, bool init)
     if (init) {
         _currentDatafileIndex = i;
         ui->conf_data_file->setCurrentIndex(i);
+    } else {
+        checkModified();
+    }
+}
+
+void Project::currentDataFile2Index(int i, bool init)
+{
+    if (init) {
+        _currentDatafile2Index = i;
+        ui->conf_data_file2->setCurrentIndex(i);
     } else {
         checkModified();
     }
@@ -493,9 +504,19 @@ int Project::currentDataFileIndex(void) const
     return ui->conf_data_file->currentIndex();
 }
 
+int Project::currentDataFile2Index(void) const
+{
+    return ui->conf_data_file2->currentIndex();
+}
+
 QString Project::currentDataFile(void) const
 {
     return ui->conf_data_file->currentText();
+}
+
+QString Project::currentDataFile2(void) const
+{
+    return ui->conf_data_file2->currentText();
 }
 
 void Project::checkModified()
@@ -503,6 +524,10 @@ void Project::checkModified()
     if (projectRoot.isEmpty() || _filesModified)
         return;
     if (currentDataFileIndex() != _currentDatafileIndex) {
+        setModified(true);
+        return;
+    }
+    if (currentDataFile2Index() != _currentDatafile2Index) {
         setModified(true);
         return;
     }

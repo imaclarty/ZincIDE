@@ -127,12 +127,38 @@
                     </sizepolicy>
                    </property>
                    <property name="text">
-                    <string>Data file:</string>
+                    <string>Data file 1:</string>
                    </property>
                   </widget>
                  </item>
                  <item>
                   <widget class="QComboBox" name="conf_data_file">
+                   <item>
+                    <property name="text">
+                     <string>None</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <item>
+                  <widget class="QLabel" name="label_2">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="text">
+                    <string>Data file 2:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="conf_data_file2">
                    <item>
                     <property name="text">
                      <string>None</string>
