@@ -1441,7 +1441,7 @@ void MainWindow::compileZincOutput()
     QString l = process->readAll();
     compileErrors += l;
 
-    QRegExp errexp("^(.*):([0-9]+):([0-9]+):(.*)$");
+    QRegExp errexp("^(.*zinc):([0-9]+):([0-9]+):(.*)$");
     if (errexp.indexIn(l) != -1) {
         QString errFile = errexp.cap(1).trimmed();
         QUrl url = QUrl::fromLocalFile(errFile);
